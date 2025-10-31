@@ -42,7 +42,7 @@ requisitos.txt                 → Requisitos extraídos del PDF
 
 1. **SP_CargarEstudiante** - Registrar nuevos estudiantes
 2. **SP_CargarProfesor** - Registrar nuevos profesores
-3. **SP_CargarMateria** - Registrar nuevas materias con costo mensual
+3. **SP_CargarMateria** - Registrar nuevas materias con créditos y costo mensual
 4. **SP_CargarCurso** - Crear cursos con profesor y cuatrimestre
 5. **SP_CargarCuatrimestre** - Definir cuatrimestres del año
 6. **SP_CargarInteresMora** - Configurar tasas de interés (actualiza si existe)

@@ -47,7 +47,7 @@ CREATE TABLE Cuatrimestre (
 CREATE TABLE Factura (
     id_factura INT PRIMARY KEY AUTO_INCREMENT,
     id_estudiante INT NOT NULL,
-    fecha_emision DATE NOT NULL DEFAULT (CURRENT_DATE),
+    fecha_emision DATE NOT NULL,
     monto_total DECIMAL(10,2) NOT NULL DEFAULT 0,
     estado_pago VARCHAR(20) NOT NULL DEFAULT 'Pendiente' CHECK (estado_pago IN ('Pendiente', 'Pagado', 'Vencido')),
     CONSTRAINT FK_Factura_Estudiante FOREIGN KEY (id_estudiante) REFERENCES Estudiantes(id_estudiante)
@@ -59,7 +59,7 @@ CREATE TABLE Matriculacion (
     id_estudiante INT NOT NULL,
     anio INT NOT NULL,
     monto_matricula DECIMAL(10,2) NOT NULL,
-    fecha_matriculacion DATE NOT NULL DEFAULT (CURRENT_DATE),
+    fecha_matriculacion DATE NOT NULL,
     id_factura INT NULL,
     CONSTRAINT FK_Matriculacion_Estudiante FOREIGN KEY (id_estudiante) REFERENCES Estudiantes(id_estudiante),
     CONSTRAINT FK_Matriculacion_Factura FOREIGN KEY (id_factura) REFERENCES Factura(id_factura),
@@ -87,7 +87,7 @@ CREATE TABLE Cuota (
 CREATE TABLE CuentaCorriente (
     id_movimiento INT PRIMARY KEY AUTO_INCREMENT,
     id_estudiante INT NOT NULL,
-    fecha_movimiento DATE NOT NULL DEFAULT (CURRENT_DATE),
+    fecha_movimiento DATE NOT NULL,
     concepto VARCHAR(100) NOT NULL,
     debe DECIMAL(10,2) NOT NULL DEFAULT 0,
     haber DECIMAL(10,2) NOT NULL DEFAULT 0,
@@ -103,7 +103,7 @@ CREATE TABLE InteresMora (
     id_interes_mora INT PRIMARY KEY AUTO_INCREMENT,
     anio INT NOT NULL UNIQUE,
     tasa_mensual DECIMAL(5,2) NOT NULL CHECK (tasa_mensual >= 0),
-    fecha_vigencia DATE NOT NULL DEFAULT (CURRENT_DATE)
+    fecha_vigencia DATE NOT NULL
 );
 
 -- Tabla ItemFactura (detalle de conceptos en cada factura)

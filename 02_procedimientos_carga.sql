@@ -137,6 +137,7 @@ DROP PROCEDURE IF EXISTS SP_CargarMateria$$
 CREATE PROCEDURE SP_CargarMateria(
     IN p_nombre VARCHAR(100),
     IN p_descripcion TEXT,
+    IN p_creditos INT,
     IN p_costo_curso_mensual DECIMAL(10,2)
 )
 BEGIN
@@ -145,6 +146,11 @@ BEGIN
     -- Validaciones
     IF TRIM(p_nombre) = '' THEN
         SET v_error_msg = 'El nombre de la materia no puede estar vacío';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = v_error_msg;
+    END IF;
+    
+    IF p_creditos <= 0 THEN
+        SET v_error_msg = 'La cantidad de créditos debe ser mayor a cero';
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = v_error_msg;
     END IF;
     
@@ -163,10 +169,12 @@ BEGIN
     INSERT INTO Materias (
         nombre,
         descripcion,
+        creditos,
         costo_curso_mensual
     ) VALUES (
         TRIM(p_nombre),
         p_descripcion,
+        p_creditos,
         p_costo_curso_mensual
     );
     

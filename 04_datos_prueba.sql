@@ -16,12 +16,12 @@ CALL SP_CargarProfesor('20567890', 'Luis', 'Fernández', 'Redes', 'luis.fernande
 -- =============================================
 -- 2. CARGAR MATERIAS
 -- =============================================
-CALL SP_CargarMateria('Análisis Matemático I', 'Introducción al cálculo diferencial e integral', 15000.00);
-CALL SP_CargarMateria('Álgebra Lineal', 'Estudio de vectores, matrices y espacios vectoriales', 15000.00);
-CALL SP_CargarMateria('Programación I', 'Fundamentos de programación y algoritmos', 18000.00);
-CALL SP_CargarMateria('Base de Datos I', 'Diseño y modelado de bases de datos relacionales', 20000.00);
-CALL SP_CargarMateria('Física I', 'Mecánica clásica y cinemática', 16000.00);
-CALL SP_CargarMateria('Redes y Comunicaciones', 'Protocolos de red y arquitecturas', 19000.00);
+CALL SP_CargarMateria('Análisis Matemático I', 'Introducción al cálculo diferencial e integral', 6, 15000.00);
+CALL SP_CargarMateria('Álgebra Lineal', 'Estudio de vectores, matrices y espacios vectoriales', 6, 15000.00);
+CALL SP_CargarMateria('Programación I', 'Fundamentos de programación y algoritmos', 8, 18000.00);
+CALL SP_CargarMateria('Base de Datos I', 'Diseño y modelado de bases de datos relacionales', 7, 20000.00);
+CALL SP_CargarMateria('Física I', 'Mecánica clásica y cinemática', 6, 16000.00);
+CALL SP_CargarMateria('Redes y Comunicaciones', 'Protocolos de red y arquitecturas', 7, 19000.00);
 
 -- =============================================
 -- 3. CARGAR CUATRIMESTRES
