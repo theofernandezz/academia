@@ -1,7 +1,7 @@
 -- =============================================
 -- FUNCIONES ESCALARES
--- Actividad 2: Gestión Académica (Funciones 2.x)
--- SQL Estándar (compatible MySQL)
+-- Actividad 2: Gestion Academica (Funciones 2.x)
+-- SQL Estandar (compatible MySQL)
 -- =============================================
 
 DELIMITER $$
@@ -30,7 +30,7 @@ END$$
 
 -- =============================================
 -- 2.2 FN_VacantesDisponibles
--- Calcula vacantes restantes suponiendo cupo máximo de 35 alumnos
+-- Calcula vacantes restantes suponiendo cupo maximo de 35 alumnos
 -- =============================================
 DROP FUNCTION IF EXISTS FN_VacantesDisponibles$$
 CREATE FUNCTION FN_VacantesDisponibles(
@@ -224,7 +224,7 @@ END$$
 
 -- =============================================
 -- 2.7 FN_TotalAdeudadoPorNombre
--- Calcula el monto adeudado para un estudiante según su nombre
+-- Calcula el monto adeudado para un estudiante segun su nombre
 -- Devuelve -1 si hay duplicados para el nombre indicado
 -- =============================================
 DROP FUNCTION IF EXISTS FN_TotalAdeudadoPorNombre$$

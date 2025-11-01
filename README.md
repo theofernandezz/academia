@@ -9,12 +9,12 @@
 02_procedimientos_carga.sql     → SPs de carga básica (1.1 - 6 procedimientos)
 03_procedimientos_gestion.sql   → SPs de gestión académica (1.2 al 1.9 - 8 procedimientos)
 04_datos_prueba.sql            → Datos de prueba iniciales
-05_funciones_escalares.sql     → 7 funciones escalares (pendiente)
+05_funciones_escalares.sql     → 7 funciones escalares
 06_funciones_tabla.sql         → 10 funciones de tabla (pendiente)
-07_cursores_listados.sql       → 10 listados con cursores (pendiente)
-08_sql_dinamico.sql            → 10 consultas SQL dinámico (pendiente)
-09_triggers.sql                → 10 triggers (pendiente)
-10_transacciones.sql           → 10 transacciones (pendiente)
+07_cursores_listados.sql       → 10 listados con cursores
+08_sql_dinamico.sql            → 10 consultas SQL dinámico
+09_triggers.sql                → 10 triggers
+10_transacciones.sql           → 10 transacciones
 README.md                      → Este archivo
 creacion.SQL                   → Script base de Actividad 1
 requisitos.txt                 → Requisitos extraídos del PDF
@@ -27,12 +27,12 @@ requisitos.txt                 → Requisitos extraídos del PDF
 3. **02_procedimientos_carga.sql** - Crear procedimientos de carga básica
 4. **03_procedimientos_gestion.sql** - Crear procedimientos de gestión académica
 5. **04_datos_prueba.sql** - Cargar datos de prueba
-6. **05_funciones_escalares.sql** - Crear funciones escalares (próximo)
+6. **05_funciones_escalares.sql** - Crear funciones escalares
 7. **06_funciones_tabla.sql** - Crear funciones de tabla (próximo)
-8. **07_cursores_listados.sql** - Crear listados con cursores (próximo)
-9. **08_sql_dinamico.sql** - Crear consultas SQL dinámico (próximo)
-10. **09_triggers.sql** - Crear triggers (próximo)
-11. **10_transacciones.sql** - Crear transacciones (próximo)
+8. **07_cursores_listados.sql** - Crear listados con cursores
+9. **08_sql_dinamico.sql** - Crear consultas SQL dinámico
+10. **09_triggers.sql** - Crear triggers
+11. **10_transacciones.sql** - Crear transacciones
 
 ## 📋 Procedimientos Almacenados Implementados
 
@@ -64,15 +64,15 @@ requisitos.txt                 → Requisitos extraídos del PDF
 - ✅ **02_procedimientos_carga.sql** - 6 SPs de carga básica (1.1)
 - ✅ **03_procedimientos_gestion.sql** - 8 SPs de gestión (1.2 al 1.9)
 - ✅ **04_datos_prueba.sql** - Datos iniciales
+- ✅ **05_funciones_escalares.sql** - 7 funciones escalares
+- ✅ **06_devolucionTablas.sql** - 10 funciones con listado en formato JSON
+- ✅ **07_cursores_listados.sql** - 10 listados implementados con cursores
+- ✅ **08_sql_dinamico.sql** - 10 procedimientos con SQL dinámico controlado
+- ✅ **09_triggers.sql** - 10 triggers de reglas de negocio
+- ✅ **10_transacciones.sql** - 10 procedimientos transaccionales
 
 ### 🚧 Pendiente
 
-- ⏳ Funciones escalares (7)
-- ⏳ Funciones de tabla (10)
-- ⏳ Cursores con listados (10)
-- ⏳ SQL dinámico (10)
-- ⏳ Triggers (10)
-- ⏳ Transacciones (10)
 - ⏳ Documentación final
 
 ## 📊 Modelo de Datos
