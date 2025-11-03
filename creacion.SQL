@@ -13,7 +13,7 @@ CREATE TABLE Estudiantes (
     fecha_nacimiento DATE NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     telefono VARCHAR(20) NULL,
-    anio_ingreso INT NOT NULL DEFAULT 2024,
+    anio_ingreso INT NOT NULL DEFAULT 2025,
     estado_baja TINYINT NOT NULL DEFAULT 0
 );
 
