@@ -10,7 +10,6 @@ Arquitectura de archivos
 creacion.SQL
     Script completo de estructura. Crea todas las tablas actualizadas (Estudiantes, Profesores, Materias, Cursos, Cuatrimestre, Matriculacion, Cuota, Factura, CuentaCorriente, InteresMora, ItemFactura) junto con los indices.
 
-
 02_procedimientos_carga.sql
     6 procedimientos para altas basicas: estudiantes, profesores, materias, cursos, cuatrimestres e interes por mora (con actualizacion si el registro ya existe).
 
@@ -38,6 +37,8 @@ creacion.SQL
 10_transacciones.sql
     10 procedimientos transaccionales (START TRANSACTION/COMMIT/ROLLBACK) que combinan la logica anterior: matricular y facturar, inscribir con validacion de cupos, registrar pagos, generar cuotas masivas, baja condicionada, registrar notas, emitir facturas agrupadas, reinscribir, etc.
 
+11_simulacion_pruebas.sql
+    Escenario integral para validar el flujo completo. Limpia tablas temporales y ejecuta cada bloque con SELECT de verificacion.
 
 demo_guion.sql
     Secuencia resumida para la defensa. Contiene los CALL y SELECT principales listos para copiar y pegar en la presentacion.
@@ -61,4 +62,3 @@ Tips para la demostracion
 - Cargar los datos base con 04_datos_prueba.sql.
 - Usar demo_guion.sql como guion de comandos para mostrar cada flujo y sus resultados (matricula, inscripcion, generacion de cuotas, pagos, baja/alta, notas, funciones).
 - Ante error de saldo distinto de cero, mostrar las facturas pendientes con SELECT y pagarlas con SP_TX_RegistrarPagoCompleto antes de repetir la baja.
-

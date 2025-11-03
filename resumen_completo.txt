@@ -1,0 +1,95 @@
+Resumen teorico con ejemplos del proyecto
+=========================================
+
+Introduccion
+------------
+El objetivo del sistema es gestionar alumnos, cursos y la parte financiera asociada (matriculas, cuotas, intereses, pagos). A continuacion se repasan los conceptos que hay que dominar, junto con ejemplos concretos de este proyecto.
+
+Tablas y relaciones
+--------------------
+- **Tabla**: estructura que agrupa registros. Ejemplo: `Estudiantes` guarda datos basicos, `Factura` almacena facturacion por alumno.
+- **Relaciones**: se logran mediante claves foraneas (FK). Ejemplo: `Matriculacion.id_estudiante` referencia a `Estudiantes.id_estudiante` para indicar quien se matriculo.
+
+Clave primaria (PK)
+-------------------
+Identifica unicamente cada fila. En `Estudiantes` usamos `id_estudiante INT AUTO_INCREMENT PRIMARY KEY`. Sirve para que las FK apunten a un registro seguro. Todas las tablas principales del proyecto definen su PK.
+
+Clave foranea (FK)
+------------------
+Vincula tablas y garantiza integridad. Ejemplos:
+- `Cursos.id_profesor` y `Cursos.id_materia` referencian las tablas `Profesores` y `Materias`.
+- `CuentaCorriente.id_factura` enlaza movimientos con la factura que los origina. Los `FOREIGN KEY` se ven en `creacion.SQL`.
+
+Indices
+-------
+Se agregan para acelerar consultas frecuentes (por estudiante, por estado). Ejemplo: `CREATE INDEX IX_Cuota_Estado_Pago ON Cuota(estado_pago);` ayuda a filtrar cuotas pendientes o pagadas. Todos los indices se encuentran al final de `creacion.SQL`.
+
+Procedimientos almacenados
+--------------------------
+Encapsulan logica que se repite y validaciones de negocio. Hay tres grupos:
+1. **Carga basica** (`02_procedimientos_carga.sql`): alta de estudiantes, profesores, materias, cursos, cuatrimestres e interes por mora (con update si ya existe el anio).
+2. **Gestion** (`03_procedimientos_gestion.sql`): baja y alta de alumnos, matriculacion con factura, inscripciones con control de materia/cuatrimestre, carga de notas con reglas para recuperatorio, generacion de cuotas, calculo de intereses, registro de pagos.
+3. **Transacciones** (`10_transacciones.sql`): combinan varias operaciones (matricular + factura + asiento), manejan errores con `ROLLBACK` y garantizan consistencia.
+
+Funciones escalares
+-------------------
+Devuelven un valor puntual y se usan en consultas rapidas. Ejemplos (`05_funciones_escalares.sql`):
+- `FN_SaldoCuentaCorriente(id_estudiante)` calcula la suma `debe - haber`.
+- `FN_VacantesDisponibles(id_curso)` respeta el cupo (maximo 35).
+- `FN_TotalAdeudadoPorNombre(nombre)` devuelve -1 si hay homonimos.
+
+Funciones tipo tabla (JSON)
+---------------------------
+MySQL no soporta funciones que entreguen varias filas directamente; usamos JSON para simularlo (`06_devolucionTablas.sql`). Ejemplo: `FN_ListarCursosPorEstudiante` retorna un `JSON_ARRAY` con los cursos y datos relevantes. Para verlos como filas, se puede usar `JSON_TABLE`.
+
+Cursores
+--------
+Permiten recorrer filas y construir listados personalizados (`07_cursores_listados.sql`). Patron general:
+1. Declarar variables, cursor y handler.
+2. Crear una tabla temporal.
+3. Abrir el cursor, recorrer con `FETCH`, insertar en la tabla temporal.
+4. Cerrar cursor y hacer `SELECT` final.
+Ejemplo: `SP_ListadoEstudiantesNotasFinales` muestra alumnos, curso y nota final.
+
+SQL dinamico
+------------
+Se usa cuando una parte de la consulta depende de un parametro (campo de orden, filtro, columnas). Se arma el string, se prepara y se ejecuta (`08_sql_dinamico.sql`). Ejemplo: `SP_BuscarEstudiantesCampoVariable` valida el campo y hace `PREPARE stmt FROM v_sql; EXECUTE stmt USING @valor;`.
+
+Triggers
+--------
+Se disparan ante eventos para mantener reglas de negocio (`09_triggers.sql`):
+- `TRG_CuentaCorriente_AfterInsert_ActualizaCuotas` marca las cuotas como pagadas cuando el pago cubre la factura.
+- `TRG_Inscripciones_BeforeInsert_NoDuplicadoMateria` impide inscribir al mismo alumno a la misma materia en el mismo cuatrimestre.
+- `TRG_Inscripciones_BeforeUpdate_RecalculaNotaFinal` recalcula `nota_final` al cargar recuperatorio.
+
+Transacciones
+-------------
+Agrupan pasos que deben ejecutarse juntos. Estructura: `START TRANSACTION; ... COMMIT;` y `EXIT HANDLER FOR SQLEXCEPTION` que hace `ROLLBACK`. Ejemplos en `10_transacciones.sql`:
+- `SP_TX_MatricularYGenerarFactura`: inserta factura, item, matriculacion y movimiento en cuenta corriente.
+- `SP_TX_RegistrarPagoCompleto`: registra el pago y actualiza factura y cuotas.
+
+Flujo financiero (cuenta corriente)
+-----------------------------------
+1. **Matricula**: `SP_TX_MatricularYGenerarFactura` crea una factura y un movimiento `debe` en `CuentaCorriente`.
+2. **Inscripcion a curso con factura**: `SP_TX_InscribirYGenerarItemFactura` genera otra factura y asiento.
+3. **Cuotas mensuales**: `SP_TX_GenerarCuotasMasivas` crea cuotas para alumnos inscriptos; `TRG_Factura_AfterInsert_GeneraMovimiento` registra el cargo en cuenta corriente.
+4. **Interes por mora**: `SP_TX_GenerarInteresesMora` (que llama a `SP_CalcularInteresesMora`) emite factura y movimiento extra cuando hay cuotas vencidas.
+5. **Pago**: `SP_TX_RegistrarPagoCompleto` inserta un movimiento `haber` y los triggers actualizan estados de cuota y factura.
+6. **Baja**: `SP_TX_BajaEstudianteSaldoCero` solo se ejecuta si la suma `debe - haber` es cero.
+
+Datos de prueba
+---------------
+`04_datos_prueba.sql` usa los SP de carga para insertar profesores, materias, alumnos, cursos, cuatrimestres e interes por mora. Sirve para demostrar el flujo completo sin inventar datos en vivo.
+
+Consejos para la defensa
+------------------------
+- Arrancar con base limpia: `DROP DATABASE gestion_academica; CREATE DATABASE...` luego ejecutar `creacion.SQL` y los scripts 02 al 10.
+- Cargar datos con `04_datos_prueba.sql`.
+- Usar `demo_guion.sql` para mostrar matriculas, inscripciones, cuotas, intereses, pagos, baja/alta, notas y funciones.
+- Si aparece el mensaje “La cuenta corriente no esta en cero”, listar las facturas pendientes (`SELECT id_factura, estado_pago FROM Factura WHERE estado_pago <> 'Pagado';`) y cancelarlas con `SP_TX_RegistrarPagoCompleto` antes de repetir la baja.
+- Para SQL dinamico, tener preparado un ejemplo sencillo (como `SP_BuscarEstudiantesCampoVariable`).
+- Recordar limitar los cursores con tablas temporales y `LIMIT/OFFSET` para simular scroll.
+
+Resumen corto
+-------------
+El proyecto cubre todos los puntos del enunciado: estructura completa del modelo, SP de carga y gestion, funciones escalares y listados, cursores, SQL dinamico, triggers y transacciones. Cada herramienta tiene ejemplos concretos que se pueden demostrar en segundos durante la presentacion.
